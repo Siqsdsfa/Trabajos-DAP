@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   TextEditingController passController = TextEditingController();
   bool hidePass = true;
+  String errorText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -59,30 +60,42 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: passController,
               ),
               const SizedBox(height: 40),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                ),
-                child:
-                    const Text('Login', style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  String user = userController.text;
-                  String pass = passController.text;
-                  if (user.isEmpty || pass.isEmpty) {
-                    print('User or password not filled');
-                  } else {
-                    if (user == 'Jorge' && pass == 'Jorge123') {
-                      print('Login Exitoso');
-                      context.pushNamed(HomeScreen.name,
-                          extra: userController.text);
-                    } else {
-                      print('Login Fallido');
-                    }
-                  }
-                },
-              )
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightBlue,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60, vertical: 10),
+                    ),
+                    child: const Text('Login',
+                        style: TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      String user = userController.text;
+                      String pass = passController.text;
+                      if (user.isEmpty || pass.isEmpty) {
+                        print('User or password not filled');
+                        setState(
+                            () => errorText = 'User or password not filled');
+                      } else {
+                        if (user == 'Jorge' && pass == 'Jorge123') {
+                          print('Login Exitoso');
+                          context.pushNamed(HomeScreen.name,
+                              extra: userController.text);
+                        } else {
+                          print('Login Fallido');
+                          setState(() => errorText = 'Login Fallido');
+                          passController.clear();
+                        }
+                      }
+                    },
+                  ),
+                  Text(
+                    errorText,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
