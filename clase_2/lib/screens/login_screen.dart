@@ -1,5 +1,6 @@
 import 'package:clase_2/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,82 +22,120 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.lightBlue, width: 2),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.person,
-                    color: Colors.lightBlue, size: 120),
-              ),
-              const SizedBox(height: 50),
-              TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    labelText: 'User',
-                    prefixIcon: const Icon(Icons.person)),
-                controller: userController,
-              ),
-              const SizedBox(height: 25),
-              TextField(
-                obscureText: hidePass,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  labelText: 'Password',
-                  prefixIcon: const Icon(Icons.key),
-                  suffixIcon: IconButton(
-                    icon: hidePass
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
-                    onPressed: togglePasswordVisibility,
-                  ),
-                ),
-                controller: passController,
-              ),
-              const SizedBox(height: 40),
-              Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlue,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 10),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.blue,
+                Colors.green,
+              ],
+            ),
+          ),
+          child: Center(
+            child: ListView(
+              children: [
+                const SizedBox(height: 80),
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundImage:
+                              NetworkImage("https://i.ibb.co/fXjRwdv/foto.png"),
+                        ),
+                      ],
                     ),
-                    child: const Text('Login',
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      String user = userController.text;
-                      String pass = passController.text;
-                      if (user.isEmpty || pass.isEmpty) {
-                        print('User or password not filled');
-                        setState(
-                            () => errorText = 'User or password not filled');
-                      } else {
-                        if (user == 'Jorge' && pass == 'Jorge123') {
-                          print('Login Exitoso');
-                          context.pushNamed(HomeScreen.name,
-                              extra: userController.text);
+                  ],
+                ),
+                const SizedBox(height: 50),
+                TextField(
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    labelText: 'User',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    prefixIcon: const Icon(Icons.person, color: Colors.white),
+                  ),
+                  controller: userController,
+                ),
+                const SizedBox(height: 25),
+                TextField(
+                  style: const TextStyle(color: Colors.white),
+                  obscureText: hidePass,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    labelText: 'Password',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    prefixIcon: const Icon(Icons.key, color: Colors.white),
+                    suffixIcon: IconButton(
+                      icon: hidePass
+                          ? const Icon(Icons.visibility_off)
+                          : const Icon(Icons.visibility),
+                      onPressed: togglePasswordVisibility,
+                      color: Colors.white,
+                    ),
+                  ),
+                  controller: passController,
+                ),
+                const SizedBox(height: 60),
+                Column(
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlue,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 80, vertical: 15),
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        String user = userController.text;
+                        String pass = passController.text;
+                        if (user.isEmpty || pass.isEmpty) {
+                          debugPrint('User or password not filled');
+                          setState(
+                              () => errorText = 'User or password not filled');
                         } else {
-                          print('Login Fallido');
-                          setState(() => errorText = 'Login Fallido');
-                          passController.clear();
+                          if (user == 'Ale' && pass == 'Ale123') {
+                            debugPrint('Succesful Login');
+                            context.pushNamed(HomeScreen.name,
+                                extra: userController.text);
+                          } else {
+                            debugPrint('Failed Login');
+                            setState(() => errorText = 'Failed Login');
+                            passController.clear();
+                          }
                         }
-                      }
-                    },
-                  ),
-                  Text(
-                    errorText,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ],
-              ),
-            ],
+                      },
+                    ),
+                    Text(
+                      errorText,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
