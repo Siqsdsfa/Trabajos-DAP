@@ -55,12 +55,12 @@ class _MainAppState extends State<MainApp> {
                   String user = userController.text;
                   String pass = passController.text;
                   if (user.isEmpty || pass.isEmpty) {
-                    print('User or password not filled');
+                    debugPrint('User or password not filled');
                   } else {
                     if (user == 'Jorge' && pass == 'Jorge123') {
-                      print('Login Exitoso');
+                      debugPrint('Login Exitoso');
                     } else {
-                      print('Login Fallido');
+                      debugPrint('Login Fallido');
                     }
                   }
                 },
