@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController userController = TextEditingController();
-
   TextEditingController passController = TextEditingController();
+  
   bool hidePass = true;
   String errorText = '';
   bool succesfulLogin = false;

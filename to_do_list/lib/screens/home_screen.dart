@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController textCreateToDoList = TextEditingController();
+  TextEditingController toDoListController = TextEditingController();
   TextEditingController dueToTextController = TextEditingController();
   String errorText = '';
 
@@ -27,8 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              textCreateToDoList.clear();
+              toDoListController.clear();
               dueToTextController.clear();
+              errorText = '';
               createNewTask();
             },
             icon: const Icon(Icons.add),
@@ -46,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 40),
                 SizedBox(
                   height: toDoListCards.length * 80,
-                  
                   child: ListView.builder(
                     itemCount: toDoListCards.length,
                     shrinkWrap: true,
@@ -61,8 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListTile(
                             leading: IconButton(
                               onPressed: () {
-                                textCreateToDoList.text = tile.descriptionCard;
+                                toDoListController.text = tile.descriptionCard;
                                 dueToTextController.text = tile.dueTo;
+                                errorText = '';
                                 modifyTask(index);
                               },
                               icon: const Icon(Icons.edit),
@@ -125,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 maxLines: 3,
                 minLines: 1,
                 maxLength: 50,
-                controller: textCreateToDoList,
+                controller: toDoListController,
               ),
               TextField(
                 //style: const TextStyle(color: Colors.white),
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                String localTaskDescription = textCreateToDoList.text;
+                String localTaskDescription = toDoListController.text;
                 String localDueTo = dueToTextController.text;
                 if (localTaskDescription.isEmpty || localDueTo.isEmpty) {
                   setState(() {
@@ -172,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                     errorText = '';
                   });
-                  textCreateToDoList.clear();
+                  toDoListController.clear();
                   dueToTextController.clear();
                   Navigator.of(context).pop();
                 }
@@ -186,6 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future modifyTask(int indexInList) => showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          scrollable: true,
           insetPadding: const EdgeInsets.only(top: 60, bottom: 60),
           title: const Text("Task"),
           content: Column(
@@ -208,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 maxLines: 3,
                 minLines: 1,
                 maxLength: 50,
-                controller: textCreateToDoList,
+                controller: toDoListController,
               ),
               TextField(
                 //style: const TextStyle(color: Colors.white),
@@ -239,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                String localTaskDescription = textCreateToDoList.text;
+                String localTaskDescription = toDoListController.text;
                 String localDueTo = dueToTextController.text;
                 if (localTaskDescription.isEmpty || localDueTo.isEmpty) {
                   setState(() {
@@ -253,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                     errorText = '';
                   });
-                  textCreateToDoList.clear();
+                  toDoListController.clear();
                   dueToTextController.clear();
                   Navigator.of(context).pop();
                 }
